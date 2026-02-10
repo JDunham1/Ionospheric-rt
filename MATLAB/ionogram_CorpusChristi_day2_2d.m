@@ -9,11 +9,13 @@
 % Date: 2/9/2026 (time management is not my strongest quality)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear workspace
+
 % Useful constants
 speed_of_light = 2.99792458e8;
 
 % Input parameters
-UT = [2005 9 28 8 0];
+UT = [2005 9 28 10 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
@@ -21,7 +23,9 @@ origin_lat = 27.796419;                                          % latitude of t
 origin_long = -97.404129;                                        % longitude of the start point of ray
 end_lat = 32.609081;                                             % latitude of the receiver of ray
 end_long = -85.481728;                                            % longitude of the receiver of ray
-ray_bear = get_bearing(origin_lat,origin_long,end_lat,end_long); % bearing of rays
+[target_ground_distance_m, ray_bear] = latlon2raz(end_lat,end_long,origin_lat,origin_long);
+
+target_ground_distance = 1e-3 * target_ground_distance_m;
 
 
 % Doppler Parameters
@@ -48,16 +52,20 @@ start_height = 0 ;      % start height for ionospheric grid (km)
 height_inc = 3;         % height increment (km)
 num_heights = 200;      % number of  heights (must be < 2000)
 
-iri_options.Ne_B0B1_model = 'Bil-2000'; % this is a non-standard setting for 
-                                        % IRI but is used as an example
+clear iri_options
+
 tic
 fprintf('Generating ionospheric grid... ')
 [iono_pf_grid, iono_pf_grid_5, collision_freq, irreg] = ...
     gen_iono_grid_2d(origin_lat, origin_long, R12, UT, ray_bear, ...
                      max_range, num_range, range_inc, start_height, ...
-		     height_inc, num_heights, kp, doppler_flag, 'iri2020', ...
-		     iri_options);
+		     height_inc, num_heights, kp, doppler_flag);
 toc
+
+% convert plasma frequency grid to electron density in electrons/cm^3
+iono_en_grid   = iono_pf_grid.^2   / 80.6164e-6;
+iono_en_grid_5 = iono_pf_grid_5.^2 / 80.6164e-6;
+
 
 %% Ray Tracing Loop
 % ray tracing parameters
@@ -88,15 +96,14 @@ for freq = freqs
 
     [ray_data, ray_path_data] = raytrace_2d(origin_lat, origin_long, elevs, ...
                                             ray_bear, tracing_freqs, nhops, ...
-                                            tol, irregs_flag);
+                                            tol, irregs_flag, iono_en_grid, iono_en_grid_5,  ...
+                                            collision_freq, start_height, height_inc, range_inc, irreg);
 
     % access the right part of ray_data and ray_path_data to have matching
     % mask sizes | ray_data.ground_range 1xsize(elevs) |
     % ray_path_data.height 1xsize(heights along path)
     ray_ranges = arrayfun(@(p) p.ground_range(end), ray_path_data);
-    size(ray_ranges)
     ending_heights = arrayfun(@(p) p.height(end), ray_path_data);
-    size(ending_heights)
 
     close_enough = abs(ray_ranges - target_ground_distance) <= distance_from_receiver_threshold;
     landed = abs(ending_heights) <= landed_threshold;
@@ -157,4 +164,6 @@ figure(4)
 plot(freq_of_min_rays,min_ray_heights)
 xlabel('Frequency (MHz)')
 ylabel('Virtual Height (km)')
+
+
 
