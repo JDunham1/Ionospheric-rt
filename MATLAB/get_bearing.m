@@ -11,7 +11,7 @@ L_A = deg2rad(start_long);
 phi_B = deg2rad(end_lat);
 L_B = deg2rad(end_long);
 
-del_L = L_A - L_B;
+del_L = L_B - L_A;
 
 S = cos(phi_B)*sin(del_L);
 C = cos(phi_A)*sin(phi_B) - sin(phi_A)*cos(phi_B)*cos(del_L);
