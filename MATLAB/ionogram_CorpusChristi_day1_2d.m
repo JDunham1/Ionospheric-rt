@@ -15,7 +15,7 @@ clear workspace
 speed_of_light = 2.99792458e8;
 
 % Input parameters
-UT = [2005 9 27 10 0];
+UT = [2000 9 27 10 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
@@ -76,7 +76,6 @@ num_elevs = length(elevs);
 freqs = 1:0.1:10; % Ray frequency in MHz (recommended by prof)
 
 %ray filtering 
-target_ground_distance = get_ground_distance(origin_lat,origin_long,end_lat,end_long);
 distance_from_receiver_threshold = 100; % km, allowed delta from target_ground_distance (guess)
 landed_threshold = 5; % km, allowed distance from ground (0) to be considered landed (guess)
 
