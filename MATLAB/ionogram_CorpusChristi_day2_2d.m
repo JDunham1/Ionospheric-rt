@@ -9,7 +9,7 @@
 % Date: 2/9/2026 (time management is not my strongest quality)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-clear workspace
+clearvars
 
 % Useful constants
 speed_of_light = 2.99792458e8;
@@ -70,13 +70,13 @@ iono_en_grid_5 = iono_pf_grid_5.^2 / 80.6164e-6;
 %% Ray Tracing Loop
 % ray tracing parameters
 nhops = 1;                   % number of hops to raytrace
-elevs = 2:1:60;            % initial ray elevation, taken from example
+elevs = 1:0.25:90;            % initial ray elevation, taken from example
 num_elevs = length(elevs);
 
 freqs = 1:0.1:10; % Ray frequency in MHz (recommended by prof)
 
 %ray filtering 
-distance_from_receiver_threshold = 100; % km, allowed delta from target_ground_distance (guess)
+distance_from_receiver_threshold = 20; % km, allowed delta from target_ground_distance (guess)
 landed_threshold = 5; % km, allowed distance from ground (0) to be considered landed (guess)
 
 %lists of saved results
