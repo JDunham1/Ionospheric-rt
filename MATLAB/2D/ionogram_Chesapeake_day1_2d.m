@@ -15,7 +15,7 @@ clearvars
 speed_of_light = 2.99792458e8;
 
 % Input parameters
-UT = [2000 9 27 10 0];
+UT = [2000 9 27 18 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
@@ -71,13 +71,13 @@ iono_en_grid_5 = iono_pf_grid_5.^2 / 80.6164e-6;
 %% Ray Tracing Loop
 % ray tracing parameters
 nhops = 1;                   % number of hops to raytrace
-elevs = 1:0.25:90;            % initial ray elevation, taken from example
+elevs = 1:0.2:90;            % initial ray elevation, taken from example
 num_elevs = length(elevs);
 
-freqs = 1:0.1:10; % Ray frequency in MHz (recommended by prof)
+freqs = 1:0.1:20; % Ray frequency in MHz (recommended by prof)
 
 %ray filtering 
-distance_from_receiver_threshold = 50; % km, allowed delta from target_ground_distance (guess)
+distance_from_receiver_threshold = 25; % km, allowed delta from target_ground_distance (guess)
 landed_threshold = 5; % km, allowed distance from ground (0) to be considered landed (guess)
 
 %lists of saved results
@@ -133,7 +133,10 @@ fprintf('Target Ground Distance: %.2f km\n', target_ground_distance)
 
 %% Ray Path Sanity check
 % plots all rays
-figure(1) 
+
+id = "Chesapeake -> Auburn | 9/27/2000 18:00 UTC (12:00 Local)";
+
+figure 
 start_range = 0;
 start_range_idx = fix(start_range ./ range_inc) + 1;
 end_range = target_ground_distance+2*distance_from_receiver_threshold;
@@ -146,22 +149,26 @@ iono_pf_subgrid = iono_pf_grid(start_ht_idx:end_ht_idx, ...
     start_range_idx:end_range_idx);
 plot_ray_iono_slice(iono_pf_subgrid, start_range, end_range, range_inc, ...
     start_ht, end_ht, height_inc, ray_path_data, 'color', 'w', 'linewidth', 2);
+title(id)
 
 % plots accepted rays
-figure(2)
+figure
 plot_ray_iono_slice(iono_pf_subgrid, start_range, end_range, range_inc, ...
     start_ht, end_ht, height_inc, kept_ray_path_data, 'color', 'w', 'linewidth', 2);
+title(id)
 
 %% Plot ionograms
 % valids
-figure(3)
+figure
 scatter(freq_of_valid_rays,valid_ray_heights)
 xlabel('Frequency (MHz)')
 ylabel('Virtual Height (km)')
+title(id)
 
 % min group distance
-figure(4)
+figure
 plot(freq_of_min_rays,min_ray_heights)
 xlabel('Frequency (MHz)')
 ylabel('Virtual Height (km)')
+title(id)
 
