@@ -13,15 +13,15 @@ clear raytrace_3d
 
 
 % Input parameters
-UT = [2000 9 27 8 0];
+UT = [2000 9 28 8 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
-origin_lat = 36.768208;                                          % latitude of the start point of ray
-origin_long = -76.287491;                                        % longitude of the start point of ray
+origin_lat = 32.609081;                                          % latitude of the start point of ray
+origin_long = -85.481728;                                        % longitude of the start point of ray
 origin_ht = 0;
-end_lat = 32.609081;                                             % latitude of the receiver of ray
-end_long = -85.481728;                                            % longitude of the receiver of ray
+end_lat = 27.796419;                                             % latitude of the receiver of ray
+end_long = -97.404129;                                            % longitude of the receiver of ray
 [target_ground_distance_m,ray_bear] = latlon2raz(end_lat,end_long,origin_lat,origin_long);
 
 target_ground_distance_km = target_ground_distance_m * 1e-3;
@@ -242,12 +242,12 @@ legend
 hold off
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/27/2000 08:00 UTC'))
+title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC'))
 
 %sanity check
 figure
 scatter(freq_of_valid_rays_iso,valid_ray_heights_iso)
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/27/2000 08:00 UTC\nIsotropic 3D Ray for Comparison to 2D'))
+title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC\nIsotropic 3D Ray for Comparison to 2D'))
 

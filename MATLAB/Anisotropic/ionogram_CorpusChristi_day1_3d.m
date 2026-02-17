@@ -17,8 +17,8 @@ UT = [2000 9 27 8 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
-origin_lat = 36.768208;                                          % latitude of the start point of ray
-origin_long = -76.287491;                                        % longitude of the start point of ray
+origin_lat = 27.796419;                                          % latitude of the start point of ray
+origin_long = -97.404129;                                        % longitude of the start point of ray
 origin_ht = 0;
 end_lat = 32.609081;                                             % latitude of the receiver of ray
 end_long = -85.481728;                                            % longitude of the receiver of ray

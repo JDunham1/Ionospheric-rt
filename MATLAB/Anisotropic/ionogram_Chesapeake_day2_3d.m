@@ -13,7 +13,7 @@ clear raytrace_3d
 
 
 % Input parameters
-UT = [2000 9 27 8 0];
+UT = [2000 9 28 8 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
@@ -242,12 +242,12 @@ legend
 hold off
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/27/2000 08:00 UTC'))
+title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC'))
 
 %sanity check
 figure
 scatter(freq_of_valid_rays_iso,valid_ray_heights_iso)
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/27/2000 08:00 UTC\nIsotropic 3D Ray for Comparison to 2D'))
+title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC\nIsotropic 3D Ray for Comparison to 2D'))
 
