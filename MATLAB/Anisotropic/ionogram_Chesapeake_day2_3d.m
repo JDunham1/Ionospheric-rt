@@ -13,7 +13,7 @@ clear raytrace_3d
 
 
 % Input parameters
-UT = [2000 9 28 8 0];
+UT = [2000 9 28 18 0];
 R12 = 168.8; % taken from WDC-SILSO
 
 %location and heading
@@ -80,7 +80,7 @@ iono_en_grid_5 = iono_pf_grid_5.^2 / 80.6164e-6;
 % ray tracing params
 nhops = 1;
 elevs = 1:0.2:90;               % initial elevation of rays
-freqs = 1:0.1:10; % Ray frequency in MHz (recommended by prof)
+freqs = 1:0.1:20; % Ray frequency in MHz (recommended by prof)
 
 %ray filtering 
 distance_from_receiver_threshold = 25; % km, allowed delta from target_ground_distance (guess)
@@ -234,6 +234,9 @@ end
 
 %% Plot ionograms
 % valids
+
+id = 'Chesapeake -> Auburn | 9/28/2000 18:00 UTC (12:00 Local)';
+
 figure
 scatter(freq_of_valid_rays_o,valid_ray_heights_o,'DisplayName','O-Mode')
 hold on
@@ -242,12 +245,12 @@ legend
 hold off
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC'))
+title(id)
 
 %sanity check
 figure
 scatter(freq_of_valid_rays_iso,valid_ray_heights_iso)
 xlabel('Frequency (MHz)')
 ylabel('Apogee (km)')
-title(sprintf('Auburn -> Chesapeake | 9/28/2000 08:00 UTC\nIsotropic 3D Ray for Comparison to 2D'))
+title(id)
 
